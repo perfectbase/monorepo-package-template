@@ -1,10 +1,18 @@
 {
   "name": "monorepo-package-template",
   "private": true,
+  "packageManager": "pnpm@10.26.2",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "preinstall": "node scripts/sync-versions.mjs",
-    "build": "turbo run build",
-    "dev": "turbo run dev",
+    "build": "turbo run build --filter=@perfectest/*",
+    "build:all": "turbo run build",
+    "dev": "turbo run dev --filter=next-basic...",
+    "dev:next-basic": "turbo run dev --filter=next-basic...",
+    "dev:next-advanced": "turbo run dev --filter=next-advanced...",
+    "dev:docs": "turbo run dev --filter=docs...",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
@@ -13,13 +21,6 @@
     "version": "changeset version && pnpm -s sync-versions",
     "release": "pnpm build && changeset publish",
     "sync-versions": "node scripts/sync-versions.mjs"
-  },
-  "pnpm": {
-    "overrides": {
-      "@perfectest/react": "workspace:*",
-      "@perfectest/server": "workspace:*",
-      "@perfectest/shared": "workspace:*"
-    }
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.5.2",
@@ -41,8 +42,11 @@
     "typescript": "catalog:",
     "typescript-eslint": "8.50.1"
   },
-  "packageManager": "pnpm@10.26.2",
-  "engines": {
-    "node": ">=24"
+  "pnpm": {
+    "overrides": {
+      "@perfectest/react": "workspace:*",
+      "@perfectest/server": "workspace:*",
+      "@perfectest/shared": "workspace:*"
+    }
   }
 }

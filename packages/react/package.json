@@ -33,7 +33,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@perfectest/shared": "workspace:*"
+    "@perfectest/shared": "0.1.3"
   },
   "peerDependencies": {
     "react": ">=16.0.0",

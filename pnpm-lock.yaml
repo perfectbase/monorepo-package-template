@@ -97,6 +97,9 @@ importers:
       '@perfectest/react':
         specifier: workspace:*
         version: link:../packages/react
+      '@perfectest/server':
+        specifier: workspace:*
+        version: link:../packages/server
       next:
         specifier: 16.1.1
         version: 16.1.1(@babel/core@7.28.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
