@@ -1,5 +1,11 @@
 # @perfectest/shared
 
+## 0.1.6
+
+### Patch Changes
+
+- [`952dc77`](https://github.com/perfectbase/monorepo-package-template/commit/952dc77c755ea3f60d600937299bf7da162b0044) Thanks [@perfectbase](https://github.com/perfectbase)! - add license
+
 ## 0.1.5
 
 ### Patch Changes
