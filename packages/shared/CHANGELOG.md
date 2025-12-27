@@ -1,5 +1,11 @@
 # @perfectest/shared
 
+## 0.1.5
+
+### Patch Changes
+
+- [`36fe86b`](https://github.com/perfectbase/monorepo-package-template/commit/36fe86b2598444fa4ad6b4a0c8ef26a42a847f75) Thanks [@perfectbase](https://github.com/perfectbase)! - add licence and readme
+
 ## 0.1.4
 
 ### Patch Changes
