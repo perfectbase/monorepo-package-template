@@ -1,12 +1,23 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.2.0/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "perfectbase/monorepo-package-template" }],
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "perfectbase/monorepo-package-template" }
+  ],
   "commit": false,
-  "fixed": [["@perfectest/shared", "@perfectest/react", "@perfectest/server", "docs", "web", "next-basic"]],
+  "fixed": [
+    [
+      "@perfectest/shared",
+      "@perfectest/react",
+      "@perfectest/server",
+      "docs",
+      "web",
+      "next-basic"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": ["!@perfectest/*"]
 }
-
