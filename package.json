@@ -2,6 +2,7 @@
   "name": "monorepo-package-template",
   "private": true,
   "scripts": {
+    "preinstall": "node scripts/sync-versions.mjs",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -9,8 +10,16 @@
     "check-types": "turbo run check-types",
     "clean": "find . -type d \\( -name \"node_modules\" -o -name \"dist\" -o -name \".next\" -o -name \".turbo\" \\) -prune -exec rm -rf {} + 2>/dev/null || true",
     "changeset": "changeset",
-    "version": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "version": "changeset version && pnpm -s sync-versions",
+    "release": "pnpm build && changeset publish",
+    "sync-versions": "node scripts/sync-versions.mjs"
+  },
+  "pnpm": {
+    "overrides": {
+      "@perfectest/react": "workspace:*",
+      "@perfectest/server": "workspace:*",
+      "@perfectest/shared": "workspace:*"
+    }
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.5.2",

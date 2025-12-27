@@ -63,7 +63,7 @@ This repo is configured so that **all workspaces share one version**. When a rel
 On every push to `main`, GitHub Actions runs the release workflow:
 
 1. If there are unpublished changesets on `main`:
-   - It opens/updates a **Version Packages** PR that runs `pnpm changeset version`.
+   - It opens/updates a **Version Packages** PR that runs `pnpm run version` (which also syncs standalone app dependency versions).
    - That PR updates versions and changelogs.
 
 2. When the Version Packages PR is merged:
@@ -75,10 +75,10 @@ On every push to `main`, GitHub Actions runs the release workflow:
 ### Preview the version bump locally
 
 ```bash
-pnpm changeset version
+pnpm run version
 ```
 
-This updates `package.json` versions and changelogs based on pending changesets.
+This updates `package.json` versions and changelogs based on pending changesets, and then runs `pnpm sync-versions` to keep `docs/` and `examples/*` runnable as standalone folders.
 
 ### Publish locally (not recommended)
 
