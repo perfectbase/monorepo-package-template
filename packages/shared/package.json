@@ -2,6 +2,9 @@
   "name": "@perfectest/shared",
   "version": "0.0.1",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false,
   "exports": {
     ".": {
