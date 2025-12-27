@@ -33,7 +33,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@perfectest/shared": "0.1.3"
+    "@perfectest/shared": "0.1.4"
   },
   "devDependencies": {
     "@types/node": "catalog:",
