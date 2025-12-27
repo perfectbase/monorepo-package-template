@@ -11,12 +11,11 @@ cd examples
 pnpm dlx create-next-app@latest <example-name> --use-pnpm --ts --eslint --src-dir --app --import-alias "@/*"
 ```
 
-- **Use the workspace catalog for shared versions**:
-  - In the new example’s `package.json`, use `"catalog:"` for shared deps:
-    - `next`, `react`, `react-dom`
-    - `eslint`, `eslint-config-next`, `typescript`
-    - `@types/node`, `@types/react`, `@types/react-dom`
-  - Shared versions live in `pnpm-workspace.yaml` under `catalog:`.
+- **Sync dependencies with the catalog**:
+
+```bash
+pnpm sync-versions
+```
 
 - **Delete the nested lockfile and workspace file if exists**:
 
