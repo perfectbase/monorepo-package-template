@@ -1,9 +1,11 @@
 import js from "@eslint/js";
+import { globalIgnores } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
 import tseslint from "typescript-eslint";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
+import pluginNext from "@next/eslint-plugin-next";
 import turboPlugin from "eslint-plugin-turbo";
 import onlyWarn from "eslint-plugin-only-warn";
 
@@ -36,15 +38,24 @@ export default [
   {
     ignores: ["dist/**"],
   },
-  // React internal config
-  pluginReact.configs.flat.recommended,
+  // Next.js config
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
   {
+    ...pluginReact.configs.flat.recommended,
     languageOptions: {
       ...pluginReact.configs.flat.recommended.languageOptions,
       globals: {
         ...globals.serviceworker,
-        ...globals.browser,
       },
+    },
+  },
+  {
+    plugins: {
+      "@next/next": pluginNext,
+    },
+    rules: {
+      ...pluginNext.configs.recommended.rules,
+      ...pluginNext.configs["core-web-vitals"].rules,
     },
   },
   {

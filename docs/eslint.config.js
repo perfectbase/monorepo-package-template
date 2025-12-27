@@ -6,25 +6,40 @@ import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
 import pluginNext from "@next/eslint-plugin-next";
-import { config as baseConfig } from "./base.js";
+import turboPlugin from "eslint-plugin-turbo";
+import onlyWarn from "eslint-plugin-only-warn";
 
-/**
- * A custom ESLint configuration for libraries that use Next.js.
- *
- * @type {import("eslint").Linter.Config[]}
- * */
-export const nextJsConfig = [
-  ...baseConfig,
+/** @type {import("eslint").Linter.Config[]} */
+export default [
+  // Base config
   js.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
+  {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    plugins: {
+      turbo: turboPlugin,
+    },
+    rules: {
+      "turbo/no-undeclared-env-vars": "warn",
+    },
+  },
+  {
+    plugins: {
+      onlyWarn,
+    },
+  },
+  {
+    ignores: ["dist/**"],
+  },
+  // Next.js config
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
   {
     ...pluginReact.configs.flat.recommended,
     languageOptions: {
@@ -50,7 +65,6 @@ export const nextJsConfig = [
     settings: { react: { version: "detect" } },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
-      // React scope no longer necessary with new JSX transform.
       "react/react-in-jsx-scope": "off",
     },
   },
