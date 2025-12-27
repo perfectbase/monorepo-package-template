@@ -18,7 +18,9 @@ This Turborepo includes the following packages/apps:
 
 - `docs`: a [Next.js](https://nextjs.org/) app (at root level)
 - `web`: another [Next.js](https://nextjs.org/) app (in `examples/`)
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@perfectest/shared`: isomorphic utilities and shared types
+- `@perfectest/server`: Node.js server-side utilities (depends on `@perfectest/shared`)
+- `@perfectest/react`: React components and hooks (depends on `@perfectest/shared`)
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 

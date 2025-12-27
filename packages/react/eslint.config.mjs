@@ -9,7 +9,6 @@ import onlyWarn from "eslint-plugin-only-warn";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
-  // Base config
   js.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
@@ -36,7 +35,6 @@ export default [
   {
     ignores: ["dist/**"],
   },
-  // React internal config
   pluginReact.configs.flat.recommended,
   {
     languageOptions: {
@@ -58,3 +56,4 @@ export default [
     },
   },
 ];
+
