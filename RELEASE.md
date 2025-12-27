@@ -1,6 +1,8 @@
-# Versioning & Release (Changesets)
+# Versioning & Release (Changesets + npm Trusted Publishing)
 
 This repo uses **Changesets** to manage versioning and releases, with **one shared version across all workspaces** (including private apps like `docs/` and `examples/*`).
+
+Publishing to npm is done via **npm Trusted Publishing (OIDC)**, so we **do not store** an `NPM_TOKEN` secret in GitHub.
 
 ## One-time setup (maintainers)
 
@@ -12,11 +14,19 @@ This repo uses **Changesets** to manage versioning and releases, with **one shar
   - `@perfectest/server`
 - They are configured with `publishConfig.access = "public"` so scoped packages publish publicly.
 
-### 2) GitHub Actions secret
+### 2) Configure npm Trusted Publisher (OIDC)
 
-Add this repo secret:
+In npm (for each package, or for the scope if available), configure a **Trusted Publisher** pointing at this repo/workflow:
 
-- `NPM_TOKEN`: an npm automation token with permission to publish `@perfectest/*`.
+- **Provider**: GitHub Actions
+- **Repository**: this repo (owner + name)
+- **Workflow file**: `.github/workflows/release.yml`
+- **Environment**: optional (if you set one in npm, you must also set the same `environment:` in the workflow job)
+
+Notes:
+
+- This repo uses `changesets/action` to drive publishing. Until it has first-class Trusted Publishing support, we follow the established workaround: set `NPM_TOKEN` to an empty string in the workflow so publishing uses OIDC instead of a stored token. See:
+  - https://github.com/changesets/changesets/issues/1152#issuecomment-3190884868
 
 ## Day-to-day workflow
 
@@ -72,4 +82,4 @@ This updates `package.json` versions and changelogs based on pending changesets.
 pnpm run release
 ```
 
-Prefer letting CI publish so releases are repeatable and use the shared npm token.
+Prefer letting CI publish so releases are repeatable and use GitHub OIDC (no long-lived npm tokens).
