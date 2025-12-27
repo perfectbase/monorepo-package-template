@@ -20,25 +20,14 @@
     "src"
   ],
   "scripts": {
-    "build": "rm -rf dist && rollup -c && tsc -p tsconfig.build.json",
+    "build": "rollup -c && tsc -p tsconfig.build.json",
     "dev": "rollup -c -w",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@rollup/plugin-node-resolve": "catalog:",
-    "@rollup/plugin-typescript": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-only-warn": "^1.1.0",
-    "eslint-plugin-turbo": "^2.7.1",
-    "glob": "catalog:",
-    "globals": "^16.5.0",
-    "rollup": "catalog:",
-    "typescript": "catalog:",
-    "typescript-eslint": "^8.50.0"
+    "typescript": "catalog:"
   }
 }
-

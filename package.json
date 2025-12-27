@@ -10,9 +10,22 @@
     "clean": "find . -type d \\( -name \"node_modules\" -o -name \"dist\" -o -name \".next\" -o -name \".turbo\" \\) -prune -exec rm -rf {} + 2>/dev/null || true"
   },
   "devDependencies": {
-    "prettier": "^3.7.4",
-    "turbo": "^2.7.2",
-    "typescript": "catalog:"
+    "@eslint/js": "9.39.2",
+    "@rollup/plugin-node-resolve": "16.0.3",
+    "@rollup/plugin-typescript": "12.3.0",
+    "eslint-plugin-only-warn": "1.1.0",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "eslint-plugin-turbo": "2.7.2",
+    "glob": "13.0.0",
+    "globals": "16.5.0",
+    "prettier": "3.7.4",
+    "rollup": "4.54.0",
+    "rollup-plugin-delete": "3.0.2",
+    "rollup-plugin-preserve-directives": "0.4.0",
+    "turbo": "2.7.2",
+    "typescript": "catalog:",
+    "typescript-eslint": "8.50.1"
   },
   "packageManager": "pnpm@10.0.0",
   "engines": {

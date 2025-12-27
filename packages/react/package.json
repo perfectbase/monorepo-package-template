@@ -20,7 +20,7 @@
     "src"
   ],
   "scripts": {
-    "build": "rm -rf dist && rollup -c && tsc -p tsconfig.build.json",
+    "build": "rollup -c && tsc -p tsconfig.build.json",
     "dev": "rollup -c -w",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
@@ -29,30 +29,16 @@
     "@perfectest/shared": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@rollup/plugin-node-resolve": "catalog:",
-    "@rollup/plugin-typescript": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "eslint": "catalog:",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-only-warn": "^1.1.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-turbo": "^2.7.1",
-    "glob": "catalog:",
-    "globals": "^16.5.0",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "rollup": "catalog:",
-    "rollup-plugin-preserve-directives": "catalog:",
-    "typescript": "catalog:",
-    "typescript-eslint": "^8.50.0"
+    "typescript": "catalog:"
   }
 }
-
