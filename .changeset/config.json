@@ -5,16 +5,7 @@
     { "repo": "perfectbase/monorepo-package-template" }
   ],
   "commit": false,
-  "fixed": [
-    [
-      "@perfectest/shared",
-      "@perfectest/react",
-      "@perfectest/server",
-      "docs",
-      "web",
-      "next-basic"
-    ]
-  ],
+  "fixed": [["@perfectest/*"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
