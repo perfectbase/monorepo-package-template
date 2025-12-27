@@ -1,6 +1,7 @@
 {
   "name": "@perfectest/server",
   "version": "0.1.4",
+  "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
