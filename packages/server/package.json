@@ -1,6 +1,6 @@
 {
   "name": "@perfectest/server",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -36,7 +36,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@perfectest/shared": "0.1.4"
+    "@perfectest/shared": "0.1.5"
   },
   "devDependencies": {
     "@types/node": "catalog:",
