@@ -1,5 +1,14 @@
 # @perfectest/server
 
+## 0.1.4
+
+### Patch Changes
+
+- [`03cc7fe`](https://github.com/perfectbase/monorepo-package-template/commit/03cc7fe8a8b5683f9eb8e4ab59d6cdfa1fb7c061) Thanks [@perfectbase](https://github.com/perfectbase)! - Add examples
+
+- Updated dependencies [[`03cc7fe`](https://github.com/perfectbase/monorepo-package-template/commit/03cc7fe8a8b5683f9eb8e4ab59d6cdfa1fb7c061)]:
+  - @perfectest/shared@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
