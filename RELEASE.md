@@ -6,7 +6,11 @@ Publishing to npm is done via **npm Trusted Publishing (OIDC)**, so we **do not 
 
 ## One-time setup (maintainers)
 
-### 1) npm scope access
+### 1) Enable GitHub Actions to create pull requests
+
+In the repository settings: **Settings** → **Actions** → **General** → **Workflow permissions**, enable **Allow GitHub Actions to create and approve pull requests**.
+
+### 2) npm scope access
 
 - These packages publish to npm under the `@perfectest` scope:
   - `@perfectest/shared`
@@ -14,7 +18,7 @@ Publishing to npm is done via **npm Trusted Publishing (OIDC)**, so we **do not 
   - `@perfectest/server`
 - They are configured with `publishConfig.access = "public"` so scoped packages publish publicly.
 
-### 2) Configure npm Trusted Publisher (OIDC)
+### 3) Configure npm Trusted Publisher (OIDC)
 
 In npm (for each package, or for the scope if available), configure a **Trusted Publisher** pointing at this repo/workflow:
 
