@@ -24,7 +24,9 @@
   "types": "./dist/types/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "rollup -c && tsc -p tsconfig.build.json",

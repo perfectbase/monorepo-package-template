@@ -1,89 +1,163 @@
-# Versioning & Release (Changesets + npm Trusted Publishing)
+# Versioning and Releases
 
-This repo uses **Changesets** to manage versioning and releases, with **one shared version across all workspaces** (including private apps like `docs/` and `examples/*`).
+This template uses Changesets for version management and npm Trusted Publishing (OIDC) for publishing without stored tokens.
 
-Publishing to npm is done via **npm Trusted Publishing (OIDC)**, so we **do not store** an `NPM_TOKEN` secret in GitHub.
+## Overview
 
-## One-time setup (maintainers)
+- Fixed versioning — all packages share one version number
+- Automated releases via GitHub Actions
+- No npm tokens needed — uses OIDC
+- Automatic changelog generation
 
-### 1) Enable GitHub Actions to create pull requests
+## Initial Setup
 
-In the repository settings: **Settings** → **Actions** → **General** → **Workflow permissions**, enable **Allow GitHub Actions to create and approve pull requests**.
+### 1. Enable GitHub Actions PR creation
 
-### 2) npm scope access
+Go to **Settings** → **Actions** → **General** → **Workflow permissions**
 
-- These packages publish to npm under the `@perfectest` scope:
-  - `@perfectest/shared`
-  - `@perfectest/react`
-  - `@perfectest/server`
-- They are configured with `publishConfig.access = "public"` so scoped packages publish publicly.
+Enable **Allow GitHub Actions to create and approve pull requests**.
 
-### 3) Configure npm Trusted Publisher (OIDC)
+### 2. Configure npm scope
 
-In npm (for each package, or for the scope if available), configure a **Trusted Publisher** pointing at this repo/workflow:
+Update package names in `packages/*/package.json`:
 
-- **Provider**: GitHub Actions
-- **Repository**: this repo (owner + name)
-- **Workflow file**: `.github/workflows/release.yml`
-- **Environment**: optional (if you set one in npm, you must also set the same `environment:` in the workflow job)
+```json
+{
+  "name": "@yourscope/package-name",
+  "publishConfig": {
+    "access": "public"
+  }
+}
+```
 
-Notes:
+### 3. Set up npm Trusted Publisher
 
-- This repo uses `changesets/action` to drive publishing. Until it has first-class Trusted Publishing support, we follow the established workaround: set `NPM_TOKEN` to an empty string in the workflow so publishing uses OIDC instead of a stored token. See:
-  - https://github.com/changesets/changesets/issues/1152#issuecomment-3190884868
+For each package, configure a Trusted Publisher on npm:
 
-## Day-to-day workflow
+1. Go to npmjs.com → Your package → **Settings** → **Trusted Publishers**
+2. Add a GitHub Actions publisher:
 
-### Create a changeset (required for any release)
+| Field             | Value                       |
+| ----------------- | --------------------------- |
+| Repository owner  | Your GitHub username or org |
+| Repository name   | Your repository name        |
+| Workflow filename | `release.yml`               |
+| Environment       | (leave empty)               |
 
-From the repo root:
+Note: You need to create the package on npm first. Either publish an initial version manually or let the first automated publish create it.
+
+### 4. Update changeset config
+
+Edit `.changeset/config.json`:
+
+```json
+{
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "your-org/your-repo" }
+  ],
+  "fixed": [["@yourscope/*"]],
+  "ignore": ["!@yourscope/*"]
+}
+```
+
+## Workflow
+
+### Creating a changeset
+
+When making changes:
 
 ```bash
 pnpm changeset
 ```
 
-Follow the prompts:
+Follow the prompts to select packages, bump type (patch/minor/major), and write a summary. Commit the generated file with your PR.
 
-- Select the packages impacted
-- Choose **patch / minor / major**
-- Write a short description (this becomes the changelog entry)
+### Examples
 
-Commit the generated `.changeset/*.md` file(s) with your feature/fix PR.
+Patch (bug fix):
 
-### How versioning works here (fixed versioning)
+```markdown
+---
+"@yourscope/react": patch
+---
 
-This repo is configured so that **all workspaces share one version**. When a release happens:
-
-- every workspace version is bumped together
-- only non-private packages are published to npm (`packages/*`)
-- private apps (`docs`, `web`, `next-basic`) are versioned but never published
-
-### Automated releases (CI)
-
-On every push to `main`, GitHub Actions runs the release workflow:
-
-1. If there are unpublished changesets on `main`:
-   - It opens/updates a **Version Packages** PR that runs `pnpm run version` (which also syncs standalone app dependency versions).
-   - That PR updates versions and changelogs.
-
-2. When the Version Packages PR is merged:
-   - CI runs `pnpm run release` (`pnpm build && changeset publish`).
-   - The updated packages in `packages/*` are published to npm.
-
-## Local commands (rarely needed)
-
-### Preview the version bump locally
-
-```bash
-pnpm run version
+Fixed button click handler on mobile
 ```
 
-This updates `package.json` versions and changelogs based on pending changesets, and then runs `pnpm sync-versions` to keep `docs/` and `examples/*` runnable as standalone folders.
+Minor (new feature):
 
-### Publish locally (not recommended)
+```markdown
+---
+"@yourscope/shared": minor
+"@yourscope/react": minor
+---
 
-```bash
-pnpm run release
+Added useDebounce hook
 ```
 
-Prefer letting CI publish so releases are repeatable and use GitHub OIDC (no long-lived npm tokens).
+Major (breaking change):
+
+```markdown
+---
+"@yourscope/server": major
+---
+
+Renamed createServer to initServer
+```
+
+## Release Process
+
+### Automated
+
+1. Push to main with changeset files
+2. GitHub Actions creates a "Version Packages" PR
+3. Review the version bumps and changelogs
+4. Merge the PR — packages publish to npm
+
+### Manual
+
+```bash
+pnpm run version   # preview version changes
+pnpm run release   # build and publish (prefer CI instead)
+```
+
+## How It Works
+
+### Fixed versioning
+
+All packages share one version. Config in `.changeset/config.json`:
+
+```json
+{
+  "fixed": [["@yourscope/*"]]
+}
+```
+
+### Version syncing
+
+The `sync-versions` script runs during versioning to update `docs/package.json` and `examples/*/package.json` with concrete versions, so they work as standalone apps.
+
+### npm Trusted Publishing
+
+Instead of storing an NPM_TOKEN, GitHub Actions requests a short-lived token from npm via OIDC. The workflow sets `NPM_TOKEN: ""` to enable this.
+
+## Troubleshooting
+
+**"npm ERR! code ENEEDAUTH"**
+Trusted Publisher config doesn't match. Check repository owner/name and workflow filename.
+
+**"No changesets found"**
+Run `pnpm changeset` and commit the file.
+
+**Version PR not created**
+Check GitHub Actions has permission to create PRs.
+
+**Packages not publishing**
+Ensure `publishConfig.access` is `"public"` for scoped packages.
+
+## Resources
+
+- [Changesets docs](https://github.com/changesets/changesets/blob/main/docs/intro-to-using-changesets.md)
+- [npm Trusted Publishing](https://docs.npmjs.com/generating-provenance-statements)
+- [GitHub OIDC](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)

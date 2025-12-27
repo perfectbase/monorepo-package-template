@@ -1,9 +1,29 @@
 # Changesets
 
-This repo uses [Changesets](https://github.com/changesets/changesets) for versioning and releases.
+Managed by [Changesets](https://github.com/changesets/changesets).
 
-- Create a changeset: `pnpm changeset`
-- Apply changesets to bump versions locally: `pnpm changeset version`
-- Publish (CI only): `pnpm release`
+## Contents
 
-See `RELEASE.md` at the repo root for the full workflow.
+- `config.json` — configuration
+- `*.md` files — pending changesets
+
+## Usage
+
+When making releasable changes:
+
+```bash
+pnpm changeset
+```
+
+Commit the generated file with your PR.
+
+## Release Flow
+
+1. Merge PRs with changeset files to main
+2. GitHub Actions creates a "Version Packages" PR
+3. Merge that PR to publish to npm
+
+## More Info
+
+- [Intro to Changesets](https://github.com/changesets/changesets/blob/main/docs/intro-to-using-changesets.md)
+- [Adding a changeset](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md)

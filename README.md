@@ -1,135 +1,162 @@
-# Turborepo starter
+# Monorepo Package Template
 
-This Turborepo starter is maintained by the Turborepo core team.
+A starter template for publishing multiple npm packages from a single repository, with a docs site and example apps.
 
-## Using this example
+## Features
 
-Run the following command:
+**Monorepo**
 
-```sh
-npx create-turbo@latest
-```
+- [Turborepo](https://turborepo.com/) for build orchestration and caching
+- [pnpm](https://pnpm.io/) workspaces with [catalog](https://pnpm.io/catalogs) for centralized dependency versions
 
-## What's inside?
+**Publishing**
 
-This Turborepo includes the following packages/apps:
+- [Changesets](https://github.com/changesets/changesets) for versioning and changelogs
+- [npm Trusted Publishing](https://docs.npmjs.com/generating-provenance-statements) (OIDC) — no stored tokens
+- Fixed versioning — all packages share the same version
+- Version syncing script keeps docs/examples aligned
 
-### Apps and Packages
+**Build**
 
-- `docs`: a [Next.js](https://nextjs.org/) app (at root level)
-- `web`: another [Next.js](https://nextjs.org/) app (in `examples/`)
-- `@perfectest/shared`: isomorphic utilities and shared types
-- `@perfectest/server`: Node.js server-side utilities (depends on `@perfectest/shared`)
-- `@perfectest/react`: React components and hooks (depends on `@perfectest/shared`)
+- [Rollup](https://rollupjs.org/) with ESM output, tree-shaking, and sourcemaps
+- [TypeScript](https://www.typescriptlang.org/) with declaration files
+- Preserves `"use client"` directives for React Server Components
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+**Code Quality**
 
-### Utilities
+- [ESLint](https://eslint.org/) (flat config)
+- [Prettier](https://prettier.io/)
 
-This Turborepo has some additional tools already setup for you:
+**Apps**
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- Documentation site (Next.js)
+- Example apps (Next.js basic and advanced)
 
-### Build
-
-To build all apps and packages, run the following command:
+## Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+├── packages/
+│   ├── shared/          # @yourscope/shared — isomorphic utilities and types
+│   ├── react/           # @yourscope/react — React components and hooks
+│   └── server/          # @yourscope/server — Node.js server utilities
+├── docs/                # documentation site (Next.js)
+├── examples/
+│   ├── next-basic/      # basic Next.js example
+│   └── next-advanced/   # advanced Next.js example
+├── scripts/
+│   └── sync-versions.mjs
+└── .github/workflows/
+    └── release.yml
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Getting Started
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+Requirements: Node.js 24+, pnpm 10+
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+git clone https://github.com/perfectbase/monorepo-package-template my-packages
+cd my-packages
+pnpm install
 ```
 
-### Develop
+## Commands
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```bash
+pnpm build              # build all packages
+pnpm dev                # dev mode (example app + package watch)
+pnpm dev:next-basic     # run basic example
+pnpm dev:next-advanced  # run advanced example
+pnpm dev:docs           # run docs site
+pnpm lint               # lint all packages
+pnpm check-types        # type-check all packages
+pnpm format             # format code
+pnpm clean              # remove build artifacts
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Customization
 
+### 1. Update package scope
+
+Replace `@perfectest` with your npm scope in:
+
+- `packages/*/package.json` — `name` field
+- `package.json` — `pnpm.overrides`
+- `.changeset/config.json` — `fixed` and `ignore` patterns
+
+### 2. Update repository URLs
+
+- All `package.json` files — `repository` field
+- `.changeset/config.json` — `repo` field
+
+### 3. Set up npm publishing
+
+See [RELEASE.md](./RELEASE.md) for GitHub Actions and npm Trusted Publisher setup.
+
+### 4. Modify packages
+
+The template includes three packages as examples:
+
+| Package  | Purpose    | Contents          |
+| -------- | ---------- | ----------------- |
+| `shared` | Isomorphic | Types, utilities  |
+| `react`  | React      | Components, hooks |
+| `server` | Node.js    | Server utilities  |
+
+Add, remove, or rename as needed.
+
+## Package Configuration
+
+Each package uses:
+
+```json
+{
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js"
+    },
+    "./*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/esm/*.js"
+    }
+  }
+}
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+This gives you ESM-only output, subpath exports (`@scope/pkg/button`), tree-shaking, and TypeScript support.
 
-### Remote Caching
+## Releases
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+1. Run `pnpm changeset` and commit the generated file
+2. Merge to main — GitHub Actions creates a "Version Packages" PR
+3. Merge that PR — packages publish to npm
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+See [RELEASE.md](./RELEASE.md) for details.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## Stack
 
-```
-cd my-turborepo
+| Tool       | Version | Purpose             |
+| ---------- | ------- | ------------------- |
+| Turborepo  | 2.7.x   | Build orchestration |
+| pnpm       | 10.x    | Package management  |
+| TypeScript | 5.9.x   | Type system         |
+| Rollup     | 4.x     | Bundling            |
+| Next.js    | 16.x    | Docs and examples   |
+| React      | 19.x    | UI                  |
+| ESLint     | 9.x     | Linting             |
+| Prettier   | 3.x     | Formatting          |
+| Changesets | 2.x     | Version management  |
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+## Links
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
+- [Turborepo docs](https://turborepo.com/docs)
+- [pnpm workspaces](https://pnpm.io/workspaces)
+- [pnpm catalogs](https://pnpm.io/catalogs)
+- [Changesets docs](https://github.com/changesets/changesets/blob/main/docs/intro-to-using-changesets.md)
+- [npm Trusted Publishing](https://docs.npmjs.com/generating-provenance-statements)
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## License
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+MIT
