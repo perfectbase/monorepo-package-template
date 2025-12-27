@@ -7,5 +7,3 @@ This repo uses [Changesets](https://github.com/changesets/changesets) for versio
 - Publish (CI only): `pnpm release`
 
 See `RELEASE.md` at the repo root for the full workflow.
-
-

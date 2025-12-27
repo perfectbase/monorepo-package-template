@@ -28,4 +28,3 @@ export function Card({
     </a>
   );
 }
-

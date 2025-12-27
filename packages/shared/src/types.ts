@@ -20,4 +20,3 @@ export type DeepPartial<T> = {
  * Extracts the resolved type from a Promise.
  */
 export type Awaited<T> = T extends Promise<infer U> ? U : T;
-

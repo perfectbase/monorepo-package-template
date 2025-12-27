@@ -13,7 +13,7 @@ export default function Home() {
           <span
             className={cn(
               "h-2 w-2 rounded-full",
-              isDev ? "bg-yellow-500" : "bg-green-500"
+              isDev ? "bg-yellow-500" : "bg-green-500",
             )}
           />
           <span className="text-sm text-neutral-500">
@@ -55,12 +55,23 @@ export default function Home() {
         <h2 className="mb-4 text-lg font-medium">Features</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { icon: "⚛️", title: "React Components", desc: "Button, Card, Code" },
-            { icon: "🖥️", title: "Server Utils", desc: "getEnv, isDevelopment" },
+            {
+              icon: "⚛️",
+              title: "React Components",
+              desc: "Button, Card, Code",
+            },
+            {
+              icon: "🖥️",
+              title: "Server Utils",
+              desc: "getEnv, isDevelopment",
+            },
             { icon: "🔗", title: "Shared Utils", desc: "cn() for class names" },
             { icon: "📦", title: "Monorepo Ready", desc: "Workspace packages" },
           ].map((f) => (
-            <div key={f.title} className="rounded border border-neutral-200 p-4">
+            <div
+              key={f.title}
+              className="rounded border border-neutral-200 p-4"
+            >
               <span className="mb-2 block text-xl">{f.icon}</span>
               <h3 className="font-medium">{f.title}</h3>
               <p className="text-sm text-neutral-500">{f.desc}</p>

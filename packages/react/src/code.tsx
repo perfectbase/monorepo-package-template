@@ -9,4 +9,3 @@ export interface CodeProps {
 export function Code({ children, className }: CodeProps): JSX.Element {
   return <code className={cn(className)}>{children}</code>;
 }
-
