@@ -1,0 +1,16 @@
+{
+  "mode": "pre",
+  "tag": "canary",
+  "initialVersions": {
+    "docs": "0.1.0",
+    "next-advanced": "0.1.0",
+    "next-basic": "0.1.0",
+    "@perfectest/react": "0.1.5",
+    "@perfectest/server": "0.1.5",
+    "@perfectest/shared": "0.1.5"
+  },
+  "changesets": [
+    "heavy-otters-vanish",
+    "wide-boats-melt"
+  ]
+}
