@@ -1,6 +1,6 @@
 {
   "name": "@perfectest/react",
-  "version": "0.1.7-canary.0",
+  "version": "0.1.7",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -36,7 +36,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@perfectest/shared": "0.1.7-canary.0"
+    "@perfectest/shared": "0.1.7"
   },
   "peerDependencies": {
     "react": ">=16.0.0",
