@@ -1,5 +1,14 @@
 # @perfectest/server
 
+## 0.1.7-canary.0
+
+### Patch Changes
+
+- [`9e2a075`](https://github.com/perfectbase/monorepo-package-template/commit/9e2a0759789cb1d4a077dc65e31f1339f2b10287) Thanks [@perfectbase](https://github.com/perfectbase)! - test canary
+
+- Updated dependencies [[`9e2a075`](https://github.com/perfectbase/monorepo-package-template/commit/9e2a0759789cb1d4a077dc65e31f1339f2b10287)]:
+  - @perfectest/shared@0.1.7-canary.0
+
 ## 0.1.6
 
 ### Patch Changes
