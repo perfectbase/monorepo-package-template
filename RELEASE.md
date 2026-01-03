@@ -122,6 +122,53 @@ pnpm run version   # preview version changes
 pnpm run release   # build and publish (prefer CI instead)
 ```
 
+### Pre-releases (canary/alpha/beta)
+
+Changesets supports a **pre-release mode** that appends a suffix like `-canary.0`, `-alpha.3`, `-beta.1` and publishes under a **non-`latest` npm dist-tag** so you can test without affecting stable installs.
+
+#### Enter pre-release mode
+
+Pick one of these tags (or any tag you want to use on npm):
+
+```bash
+pnpm changeset pre enter canary
+# or
+pnpm changeset pre enter alpha
+# or
+pnpm changeset pre enter beta
+```
+
+This updates `.changeset/pre.json`. Keep it committed while you’re in pre mode.
+
+#### Publish a pre-release
+
+1. Create changesets as usual in PRs:
+
+```bash
+pnpm changeset
+```
+
+2. Push your PR. After it lands on `main`, GitHub Actions will open the automated **“Version Packages”** PR for the pre-release.
+
+3. Review and merge the **“Version Packages”** PR — the workflow will publish the pre-release.
+
+Notes:
+
+- While in pre mode, versions will become `x.y.z-<tag>.<n>` (for example `0.2.0-canary.0`).
+- The workflow should publish to the `<tag>` dist-tag (so it won’t become `latest`).
+
+#### Exit pre-release mode (back to stable)
+
+When you’re ready to ship the stable release (remove the `-canary.N`/`-alpha.N`/`-beta.N` suffix):
+
+```bash
+pnpm changeset pre exit
+```
+
+Then push your PR; after it lands on `main`, GitHub Actions will open the automated **“Version Packages”** PR for the stable release. Review and merge it to publish `latest`.
+
+Tip: if you want to switch between tags (e.g. `canary` → `beta`), **exit** first, then **enter** the new tag.
+
 ## How It Works
 
 ### Fixed versioning

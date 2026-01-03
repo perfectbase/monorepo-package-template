@@ -12,6 +12,7 @@ A starter template for publishing multiple npm packages from a single repository
 **Publishing**
 
 - [Changesets](https://github.com/changesets/changesets) for versioning and changelogs
+- Pre-releases (canary/alpha/beta) via Changesets `pre enter` / `pre exit`
 - [npm Trusted Publishing](https://docs.npmjs.com/generating-provenance-statements) (OIDC) — no stored tokens
 - Fixed versioning — all packages share the same version
 - Version syncing script keeps docs/examples aligned
@@ -132,6 +133,15 @@ This gives you ESM-only output, subpath exports (`@scope/pkg/button`), tree-shak
 1. Run `pnpm changeset` and commit the generated file
 2. Merge to main — GitHub Actions creates a "Version Packages" PR
 3. Merge that PR — packages publish to npm
+
+### Pre-releases (canary/alpha/beta)
+
+This template supports pre-releases using Changesets **pre mode**:
+
+- Enter pre mode: `pnpm changeset pre enter canary` (or `alpha` / `beta`)
+- Exit pre mode: `pnpm changeset pre exit`
+
+Publishing still happens via the same GitHub Actions “Version Packages” PR + release workflow.
 
 See [RELEASE.md](./RELEASE.md) for details.
 
