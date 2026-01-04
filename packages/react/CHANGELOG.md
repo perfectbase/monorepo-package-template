@@ -1,5 +1,16 @@
 # @perfectest/react
 
+## 0.2.0
+
+### Minor Changes
+
+- [`9700f70`](https://github.com/perfectbase/monorepo-package-template/commit/9700f70e317da66bd510cd71f8de6fb15c45a27d) Thanks [@perfectbase](https://github.com/perfectbase)! - Migrate from rollup to tsdown
+
+### Patch Changes
+
+- Updated dependencies [[`9700f70`](https://github.com/perfectbase/monorepo-package-template/commit/9700f70e317da66bd510cd71f8de6fb15c45a27d)]:
+  - @perfectest/shared@0.2.0
+
 ## 0.1.7
 
 ### Patch Changes
