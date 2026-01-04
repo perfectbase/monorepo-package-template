@@ -19,7 +19,7 @@ A starter template for publishing multiple npm packages from a single repository
 
 **Build**
 
-- [Rollup](https://rollupjs.org/) with ESM output, tree-shaking, and sourcemaps
+- [tsdown](https://tsdown.dev/) with CJS/ESM outputs, tree-shaking, and sourcemaps
 - [TypeScript](https://www.typescriptlang.org/) with declaration files
 - Preserves `"use client"` directives for React Server Components
 
@@ -115,18 +115,30 @@ Each package uses:
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./*": {
-      "types": "./dist/types/*.d.ts",
-      "import": "./dist/esm/*.js"
+      "import": {
+        "types": "./dist/*.d.mts",
+        "default": "./dist/*.mjs"
+      },
+      "require": {
+        "types": "./dist/*.d.cts",
+        "default": "./dist/*.cjs"
+      }
     }
   }
 }
 ```
 
-This gives you ESM-only output, subpath exports (`@scope/pkg/button`), tree-shaking, and TypeScript support.
+This gives you dual ESM/CJS output, subpath exports (`@scope/pkg/button`), tree-shaking, and TypeScript support with format-specific declaration files.
 
 ## Releases
 
@@ -152,7 +164,7 @@ See [RELEASE.md](./RELEASE.md) for details.
 | Turborepo  | 2.7.x   | Build orchestration |
 | pnpm       | 10.x    | Package management  |
 | TypeScript | 5.9.x   | Type system         |
-| Rollup     | 4.x     | Bundling            |
+| tsdown     | 0.18.x  | Bundling            |
 | Next.js    | 16.x    | Docs and examples   |
 | React      | 19.x    | UI                  |
 | ESLint     | 9.x     | Linting             |

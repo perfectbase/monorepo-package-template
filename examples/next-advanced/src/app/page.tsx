@@ -13,7 +13,7 @@ export default function Home() {
           <span
             className={cn(
               "h-2 w-2 rounded-full",
-              isDev ? "bg-yellow-500" : "bg-green-500",
+              isDev ? "bg-yellow-500" : "bg-green-500"
             )}
           />
           <span className="text-sm text-neutral-500">
